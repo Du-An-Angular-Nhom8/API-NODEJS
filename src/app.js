@@ -2,13 +2,13 @@
 import express from "express"
 import mongoose from "mongoose";
 import cors from "cors"
-
+import RouterProduct from "../src/router/product"
 const app = express();
 app.use(express.json());
 app.use(cors());
 // app.use(express.urlencoded({ extended: true }));
-
-mongoose.connect("mongodb+srv://admin:admin@cluster0.hhw8z47.mongodb.net/nameDatabase?retryWrites=true&w=majority", {
+app.use('/api',RouterProduct)
+mongoose.connect("mongodb://127.0.0.1:27017/ASM2_ANGULAR_NHOM8", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     family: 4
