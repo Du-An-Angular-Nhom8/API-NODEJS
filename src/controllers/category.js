@@ -44,6 +44,21 @@ export const GetAllCategory = async function (req, res) {
 }
 
 
+export const GetOneCategory = async (req, res) => {
+    try {
+        const data = await Category.findById(req.params.id)
+        if (!data) {
+            return res.status(400).json({ message: "Don't have any Category" });
+        }
+        return res.json(data);
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+}
+
+
 
 
 
