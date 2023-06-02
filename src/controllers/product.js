@@ -58,6 +58,22 @@ export const getAll = async (req, res) => {
         })
     }
 }
+//getOne
+export const getOne = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await Product.findById(id);
+        return res.json({
+            message: "Tim thay 1 san pham",
+            data
+        })
+    } catch (error) {
+        return res.json({
+            message: "Tim 1 san pham that bai",
+            error
+        })
+    }
+}
 //update
 export const update = async (req, res) => {
     try {
