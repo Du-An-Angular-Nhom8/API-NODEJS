@@ -41,3 +41,18 @@ export const RemoveProduct = async (req, res) => {
 
     })
 }
+//getAll
+export const getAll = async (req, res) => {
+    try {
+        const data = await Product.find();
+        return res.json({
+            message: "Danh sach san pham",
+            data
+        })
+    } catch (error) {
+        return res.json({
+            message: "Danh sach san pham khong co gi",
+            error
+        })
+    }
+}
