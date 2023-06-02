@@ -30,3 +30,14 @@ export const CreateProduct = async (req, res) => {
         return res.json(err.message)
     }
 };
+export const RemoveProduct = async (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    // const { data } = await axios.delete("http://localhost:3000/products/" + req.params.id);
+    const data = await Product.findOneAndDelete({ _id: id })
+    res.json({
+        message: "XOA sản phẩm thành công",
+        data
+
+    })
+}
