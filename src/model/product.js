@@ -7,12 +7,12 @@ const productSchema = mongoose.Schema(
         price: Number,
         image: String,
         description: String,
-        // categoryId: {
-        //     type: mongoose.Types.ObjectId,
-        //     ref: "Category",
-        // },
+        categoryId: {
+            type: mongoose.Types.ObjectId,
+            ref: "Category",
+        },
     },
-
+    { timestamps: true, versionKey: false }
 );
 productSchema.plugin(mongoosePaginate);
 

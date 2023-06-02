@@ -1,5 +1,6 @@
 import Product from '../model/product'
 import { ProductJoi } from '../schema/product'
+import Category from '../model/category'
 //them
 export const CreateProduct = async (req, res) => {
     const query = req.query
@@ -15,11 +16,11 @@ export const CreateProduct = async (req, res) => {
         }
         // const { data } = await axios.post("http://localhost:3000/products", body);
         const product = await Product.create(body)
-        // await Category.findByIdAndUpdate(product.categoryId, {
-        //     $addToSet: {
-        //         products: product._id
-        //     }
-        // });
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $addToSet: {
+                products: product._id
+            }
+        });
         if (!product) {
             return res.status(400).json({ message: "Thêm sản phẩm thất bại" });
         }
