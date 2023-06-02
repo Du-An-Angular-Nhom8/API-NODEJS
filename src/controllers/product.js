@@ -1,5 +1,6 @@
 import Product from '../model/product'
 import { ProductJoi } from '../schema/product'
+//them
 export const CreateProduct = async (req, res) => {
     const query = req.query
     console.log(query)
@@ -30,6 +31,7 @@ export const CreateProduct = async (req, res) => {
         return res.json(err.message)
     }
 };
+//xoa
 export const RemoveProduct = async (req, res) => {
     const id = req.params.id
     console.log(id)
@@ -52,6 +54,23 @@ export const getAll = async (req, res) => {
     } catch (error) {
         return res.json({
             message: "Danh sach san pham khong co gi",
+            error
+        })
+    }
+}
+//update
+export const update = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const body = req.body;
+        const data = await Product.findByIdAndUpdate(id, body, { new: true });
+        return res.json({
+            message: "Sua thanh cong",
+            data
+        })
+    } catch (error) {
+        return res.json({
+            message: "sua that bai",
             error
         })
     }
