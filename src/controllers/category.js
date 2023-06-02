@@ -28,7 +28,7 @@ export const CreateCategory = async (req, res) => {
     }
 };
 
-
+//getall
 export const GetAllCategory = async function (req, res) {
     try {
         const data = await Category.find();
@@ -66,3 +66,14 @@ export const updateCategory = async (req, res) => {
         });
     }
 };
+
+//xoa
+export const DeleteCategory = async (req, res) => {
+    const id = req.params.id
+    // const { data } = await axios.delete("http://localhost:3000/products/" + req.params.id);
+    const data = await Category.findOneAndDelete({ _id: id })
+    res.json({
+        message: "XOA sản phẩm thành công",
+
+    })
+}
