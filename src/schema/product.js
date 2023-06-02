@@ -20,8 +20,8 @@ export const ProductJoi = Joi.object({
         "string.empty": "Khong duoc de trong anh",
         "any.required": "Truong anh phai la bat buoc"
     }),
-    // categoryId: Joi.string().required().messages({
-    //     "string.empty": "Khong duoc de trong categoryID",
-    //     "any.required": "Truong categoryID phai la bat buoc"
-    // }),
+    categoryId: Joi.string().required().messages({
+        "string.empty": "Khong duoc de trong categoryID",
+        "any.required": "Truong categoryID phai la bat buoc"
+    }),
 })
