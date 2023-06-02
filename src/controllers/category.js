@@ -29,6 +29,19 @@ export const CreateCategory = async (req, res) => {
 };
 
 
+export const GetAllCategory = async function (req, res) {
+    try {
+        const data = await Category.find();
+        if (data.length == 0) {
+            return res.status(400).json({ message: "Don't have any Category" });
+        }
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+}
 
 
 
