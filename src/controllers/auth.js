@@ -76,3 +76,18 @@ export const signin = async (req, res) => {
     }
 };
 
+export const getAllUser = async function (req, res) {
+    try {
+        const user = await User.findOne();
+        if (user.length === 0) {
+            return res.status(400).json({ message: 'Không có user' });
+        }
+        return res.status(200).json(user);
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+}
+
+
