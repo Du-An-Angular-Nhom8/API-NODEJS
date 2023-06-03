@@ -1,5 +1,5 @@
 import User from "../model/user"
-import { validateSingup } from "../schema/auth"
+import { signinSchema, validateSingup } from "../schema/auth"
 import bcryct from "bcryptjs"
 import jwt from "jsonwebtoken"
 export const singup = async (req, res) => {
@@ -36,4 +36,43 @@ export const singup = async (req, res) => {
         return res.status(404).json({ message: err })
     }
 }
+
+//sign in
+export const signin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const { error } = signinSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errors = error.details.map((err) => err.message);
+            return res.status(400).json({
+                messages: errors,
+            });
+        }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                message: "Bạn chưa đăng ký tài khoản",
+            });
+        }
+
+        const isMatch = await bcryct.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Mật khẩu không đúng",
+            });
+        }
+
+        const accessToken = jwt.sign({ _id: user._id }, "banThayDat", { expiresIn: "1d" });
+
+        return res.status(201).json({
+            message: "Dang nhap thanh cong",
+            accessToken,
+            user,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: error,
+        });
+    }
+};
 
