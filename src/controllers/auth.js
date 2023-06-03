@@ -62,7 +62,7 @@ export const signin = async (req, res) => {
             });
         }
 
-        const accessToken = jwt.sign({ _id: user._id }, "banThayDat", { expiresIn: "1d" });
+        const accessToken = jwt.sign({ _id: user._id }, "boquan", { expiresIn: "1d" });
 
         return res.status(201).json({
             message: "Dang nhap thanh cong",
