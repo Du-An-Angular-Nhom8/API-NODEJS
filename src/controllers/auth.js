@@ -78,7 +78,7 @@ export const signin = async (req, res) => {
 
 export const getAllUser = async function (req, res) {
     try {
-        const user = await User.findOne();
+        const user = await User.find();
         if (user.length === 0) {
             return res.status(400).json({ message: 'Không có user' });
         }
@@ -88,6 +88,24 @@ export const getAllUser = async function (req, res) {
             message: error.message,
         });
     }
+}
+
+
+// GetOneUser
+export const GetOneUser = async function (req, res) {
+    try {
+        const id = req.params.id
+        // const { data } = await axios.get('http://localhost:3000/products/' + id)
+        const data = await User.findById(id)
+        if (data.length === 0) {
+            return res.status(200).json({ message: "rong" })
+        }
+        return res.json(data)
+    } catch (err) {
+        return res.status(500).json({ message: "loi api" })
+    }
+
+
 }
 
 

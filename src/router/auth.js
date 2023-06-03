@@ -1,5 +1,5 @@
 import express from "express";
-import { signin, singup } from "../controllers/auth";
+import { GetOneUser, signin, } from "../controllers/auth";
 import { getAllUser, singup } from "../controllers/auth";
 
 
@@ -10,5 +10,6 @@ router.post('/signin', signin)
 
 
 router.get('/users', getAllUser)
+router.get('/users/:id', GetOneUser)
 
 export default router
