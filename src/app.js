@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors"
 import RouterProduct from "../src/router/product"
 import RouterCategory from "../src/router/category"
-
+import RouterAuth from "../src/router/auth"
 
 const app = express();
 app.use(express.json());
@@ -14,6 +14,7 @@ app.use(cors());
 
 app.use('/api',RouterProduct)
 app.use('/api', RouterCategory)
+app.use('/api', RouterAuth)
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/ASM2_ANGULAR_NHOM8", {
