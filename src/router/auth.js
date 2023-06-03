@@ -1,6 +1,8 @@
 import express from "express";
 import { GetOneUser, signin, } from "../controllers/auth";
 import { getAllUser, singup } from "../controllers/auth";
+import { signin, singup } from "../controllers/auth";
+import { getAllUser } from "../controllers/auth";
 
 
 const router = express.Router()
