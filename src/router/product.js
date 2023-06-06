@@ -4,7 +4,7 @@ import { checkPermission } from "../middleware/checkPermisson";
 
 const router = express.Router()
 
-router.post('/product/add', checkPermission, CreateProduct),
+router.post('/product/add', CreateProduct),
     router.delete('/product/:id', checkPermission, RemoveProduct),
     router.get('/product', getAll)
 router.put("/product/:id/edit", checkPermission, update)
