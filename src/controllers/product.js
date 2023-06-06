@@ -1,6 +1,7 @@
 import Product from '../model/product'
 import { ProductJoi } from '../schema/product'
 import Category from '../model/category'
+import moment from 'moment/moment';
 //them
 export const CreateProduct = async (req, res) => {
     const query = req.query
@@ -45,18 +46,35 @@ export const RemoveProduct = async (req, res) => {
     })
 }
 //getAll
-export const getAll = async (req, res) => {
+export const getAll = async function (req, res) {
+
+
+    const { _sort = "createdAt", _order = "desc", _limit = 8, _page = 1 } = req.query;
+
+    const options = {
+        page: _page,
+        limit: _limit,
+        sort: {
+            [_sort]: _order == "desc" ? -1 : 1,
+        },
+    };
+
     try {
-        const data = await Product.find();
-        return res.json({
-            message: "Danh sach san pham",
-            data
-        })
+        const { docs, totalDocs, totalPages } = await Product.paginate({}, options);
+        if (docs.length === 0) {
+            return res.status(400).json({ message: "Không có sản phẩm nào" });
+        }
+
+        const formattedDocs = docs.map(doc => ({
+            ...doc.toObject(),
+            createAt: moment(doc.createAt).format('HH:mm'),
+        }));
+
+        return res.status(200).json({ data: formattedDocs, totalDocs, totalPages });
     } catch (error) {
         return res.json({
-            message: "Danh sach san pham khong co gi",
-            error
-        })
+            message: error.message,
+        });
     }
 }
 //getOne
