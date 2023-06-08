@@ -15,6 +15,7 @@ const userShema = mongoose.Schema({
     role: {
         type: String,
         default: "member"
-    }
+    },
+    cart: { type: mongoose.Types.ObjectId, ref: 'Cart' } // Tham chiếu đến model Cart hoặc sử dụng kiểu dữ liệu tương ứng
 })
 export default mongoose.model("User", userShema)

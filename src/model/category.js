@@ -5,6 +5,7 @@ const categorySchema = new mongoose.Schema(
     {
         name: String,
         products: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+        img: String
     },
     { timestamps: true, versionKey: false }
 );
