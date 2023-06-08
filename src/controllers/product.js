@@ -47,8 +47,6 @@ export const RemoveProduct = async (req, res) => {
 }
 //getAll
 export const getAll = async function (req, res) {
-
-
     const { _sort = "createdAt", _order = "desc", _limit = 8, _page = 1 } = req.query;
 
     const options = {
@@ -67,7 +65,7 @@ export const getAll = async function (req, res) {
 
         const formattedDocs = docs.map(doc => ({
             ...doc.toObject(),
-            createAt: moment(doc.createAt).format('HH:mm'),
+            createdAt: moment(doc.createdAt).format('HH:mm'),
         }));
 
         return res.status(200).json({ data: formattedDocs, totalDocs, totalPages });
