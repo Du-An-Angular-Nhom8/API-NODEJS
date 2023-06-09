@@ -86,7 +86,7 @@ export const getOne = async (req, res) => {
         })
     } catch (error) {
         return res.json({
-            message: "Tim 1 san pham that bai",
+            message: "Tim 1 san pham that bai ao vlin",
             error
         })
     }
@@ -108,5 +108,36 @@ export const update = async (req, res) => {
         })
     }
 }
+// product price ascend
+export const getProductPriceAscending = async (req, res) => {
+    try {
+        const productPriceAscend = await Product.find({}).sort({ price: 1 });
+        return res.json({
+            message: "Sắp xếp sản phẩm thành công theo giá tăng dần",
+            productPriceAscend
+        });
+    } catch (error) {
+        return res.json({
+            message: "Lỗi khi sắp xếp sản phẩm theo giá tăng dần",
+            error
+        });
+    }
+};
+// product price descend
+export const getProductPriceDescending = async (req, res) => {
+    try {
+        const productPriceDescend = await Product.find({}).sort({ price: -1 });
+        return res.json({
+            message: "Sắp xếp sản phẩm thành công theo giá giả dần",
+            productPriceDescend
+        });
+    } catch (error) {
+        return res.json({
+            message: "Lỗi khi sắp xếp sản phẩm theo giá giảm dần",
+            error
+        });
+    }
+};
+
 
 // quan1234
