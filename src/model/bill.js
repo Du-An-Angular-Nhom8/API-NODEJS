@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const billSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -39,8 +44,12 @@ const billSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
-    }
+        require: true
+    },
+    price: {
+        type: Number,
+        require: true
+    },
 
 });
 
