@@ -16,12 +16,12 @@ export const addToCart = async (req, res) => {
         // Kiểm tra xem người dùng đã có cart hay chưa
         let user = await User.findById(userId);
         let cart;
-       
-        if (!user.cart) { 
-            
+
+        if (!user.cart) {
+
             // Nếu người dùng chưa có cart, tạo một cart mới
-            cart = new Cart({ userId, price, products: [] });
-           
+            cart = new Cart({ userId, price: [], products: [] });
+
             user.cart = cart._id;
             await user.save();
         } else {
@@ -37,6 +37,7 @@ export const addToCart = async (req, res) => {
         console.log(productId);
         // const data = { productId, price }
         cart.products.push(productId);
+        cart.price.push(price);
         // console.log(cart);
         // console.log(price);
         await cart.save();
@@ -111,5 +112,35 @@ export const removeFromCart = async (req, res) => {
         return res
             .status(500)
             .json({ error: "Đã xảy ra lỗi khi xóa sản phẩm khỏi cart" });
+    }
+};
+
+export const deleteAllProducts = async (req, res) => {
+    try {
+        const cartId = req.params.id; // Lấy cartId từ request params
+        const productId = req.params.productId; // Lấy productId từ request params
+
+        // Kiểm tra và validate cartId và productId nếu cần thiết
+
+        // Cập nhật cart và xóa phần tử khỏi mảng products
+        const updatedCart = await Cart.findOneAndUpdate(
+            { _id: cartId },
+            { $set: { products: [], price: [] }} ,
+        
+            { new: true }
+        );
+
+        // Kiểm tra nếu không có cart được cập nhật
+        if (updatedCart.nModified === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy cart' });
+        }
+
+
+        // Trả về phản hồi thành công
+        res.status(200).json({ message: 'Đã xóa sản phẩm thành công', cart: updatedCart });
+    } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error(error);
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa sản phẩm' });
     }
 };

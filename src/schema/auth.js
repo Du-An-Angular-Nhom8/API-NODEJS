@@ -22,7 +22,11 @@ export const validateSingup = Joi.object({
         "string.empty": "Pass khong duoc de trong",
         "any.required": "Truong xac nhan mat khau  bat buoc pbhai co",
         "any.only": "Mat khau khong khop"
-    })
+    }),
+    // cart: Joi.string().required().messages({
+    //     "string.empty": "cart khong duoc de trong",
+    //     "any.required": "Truong cart phai bat buoc co"
+    // }),
 
 
 })

@@ -2,21 +2,20 @@ import User from "../model/user"
 import { signinSchema, validateSingup } from "../schema/auth"
 import bcryct from "bcryptjs"
 import jwt from "jsonwebtoken"
-export const singup = async (req, res) => {
+import Cart from "../model/cart"
+export const signup = async (req, res) => {
     try {
-        const userExit = await User.findOne({ email: req.body.email });
-        if (userExit) {
-            return res.status(400).json({
-                message: "Email da ton tai"
-            })
+        const userExists = await User.findOne({ email: req.body.email });
+        if (userExists) {
+            return res.status(400).json({ message: "Email đã tồn tại" });
         }
+
         const { error } = validateSingup.validate(req.body, { abortEarly: false });
         if (error) {
-            const errors = error.details.map((err) => err.message)
-            return res.status(400).json({
-                message: errors
-            })
+            const errors = error.details.map((err) => err.message);
+            return res.status(400).json({ message: errors });
         }
+
         const hashedPassword = await bcryct.hash(req.body.password, 10);
         const user = await User.create({
             name: req.body.name,
@@ -25,17 +24,25 @@ export const singup = async (req, res) => {
             password: hashedPassword,
         });
 
+        // Tạo cart mới cho user
+        const cart = new Cart({ userId: user._id });
+        await cart.save();
+
+        // Gán cartId cho user
+        user.cart = cart._id;
+        await user.save();
+
         const accessToken = jwt.sign({ _id: user._id }, "boquan", { expiresIn: "1d" });
-        // const data = await User.create(req.body)
+
         return res.status(200).json({
-            message: "Dang ky thanh cong",
+            message: "Đăng ký thành công",
             accessToken,
             user
-        })
+        });
     } catch (err) {
-        return res.status(404).json({ message: err })
+        return res.status(404).json({ message: err });
     }
-}
+};
 
 //sign in
 export const signin = async (req, res) => {
