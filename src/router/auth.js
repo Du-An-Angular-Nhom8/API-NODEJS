@@ -1,13 +1,13 @@
 import express from "express";
 import { GetOneUser, signin, } from "../controllers/auth";
-import { getAllUser, singup } from "../controllers/auth";
+import { getAllUser, signup } from "../controllers/auth";
 // import { signin, singup } from "../controllers/auth";
 // import { getAllUser } from "../controllers/auth";s
 
 
 const router = express.Router()
 
-router.post('/signup', singup)
+router.post('/signup', signup)
 router.post('/signin', signin)
 
 
