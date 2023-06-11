@@ -139,5 +139,25 @@ export const getProductPriceDescending = async (req, res) => {
     }
 };
 
+//search product
+
+export const searchProduct = async (req, res) => {
+    try {
+        const name = req.query.name;
+        const regex = new RegExp(name, "i");
+
+        const data = await Product.find({ name: regex });
+        return res.json({
+            message: "Tìm thấy sản phẩm",
+            data,
+        });
+    } catch (error) {
+        return res.json({
+            message: "Không tìm thấy sản phẩm",
+            error,
+        });
+    }
+};
+
 
 // quan1234
