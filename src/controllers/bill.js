@@ -72,3 +72,29 @@ export const GetOneBill = async (req, res) => {
         return res.status(500).json({ error: 'Đã xảy ra lỗi khi tìm hóa đơn' });
     }
 }
+export const RemoveBill = async (req, res) => {
+    try {
+
+        const id = req.params.id;
+        // Tìm tất cả các hóa đơn của userId trong cơ sở dữ liệu
+        const bills = await Bill.findOneAndDelete({ _id: id });
+
+        return res.status(200).json({ data: bills });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Đã xảy ra lỗi khi tìm hóa đơn' });
+    }
+}
+export const GetAllBill= async function (req, res) {
+    try {
+        const data = await Bill.find();
+        if (data.length == 0) {
+            return res.status(400).json({ message: "Don't have any Category" });
+        }
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+}
