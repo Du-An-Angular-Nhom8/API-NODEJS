@@ -115,4 +115,16 @@ export const GetOneUser = async function (req, res) {
 
 }
 
+export const RemoveUser = async (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    // const { data } = await axios.delete("http://localhost:3000/products/" + req.params.id);
+    const data = await User.findOneAndDelete({ _id: id })
+    res.json({
+        message: "Xoá user thành công",
+        data
+
+    })
+}
+
 
