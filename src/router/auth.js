@@ -16,6 +16,6 @@ router.get('/users', getAllUser)
 router.get('/users/:id', GetOneUser)
 
 
-router.delete('/user/:id', checkPermission, RemoveUser)
+router.delete('/user/:id', RemoveUser)
 
 export default router
