@@ -116,15 +116,31 @@ export const GetOneUser = async function (req, res) {
 }
 
 export const RemoveUser = async (req, res) => {
-    const id = req.params.id
-    console.log(id)
-    // const { data } = await axios.delete("http://localhost:3000/products/" + req.params.id);
-    const data = await User.findOneAndDelete({ _id: id })
-    res.json({
-        message: "Xoá user thành công",
-        data
+    try {
+        const id = req.params.id;
+        console.log(id);
 
-    })
-}
+        // Kiểm tra quyền truy cập của user
+        const token = req.headers.authorization?.split(" ")[1];
+        const decoded = jwt.verify(token, "boquan");
+        const user = await User.findById(decoded._id);
+
+        // Kiểm tra xem user có phải là admin hoặc đang xoá chính mình không
+        if (!user || (user.role !== "admin" && user._id !== id)) {
+            throw new Error("Bạn không có quyền thực hiện hành động này vì bạn không phải admin");
+        }
+
+        // Xoá user
+        const data = await User.findOneAndDelete({ _id: id });
+        res.json({
+            message: "Xoá user thành công",
+            data
+        });
+    } catch (error) {
+        return res.status(401).json({
+            message: error.message || "Lỗi xảy ra khi xoá user",
+        });
+    }
+};
 
 
