@@ -123,11 +123,28 @@ export const RemoveUser = async (req, res) => {
         // Kiểm tra quyền truy cập của user
         const token = req.headers.authorization?.split(" ")[1];
         const decoded = jwt.verify(token, "boquan");
-        const user = await User.findById(decoded._id);
+        const loggedInUserId = decoded._id;
+
+        // Lấy thông tin của người dùng đang đăng nhập
+        const user = await User.findById(loggedInUserId);
 
         // Kiểm tra xem user có phải là admin hoặc đang xoá chính mình không
-        if (!user || (user.role !== "admin" && user._id !== id)) {
-            throw new Error("Bạn không có quyền thực hiện hành động này vì bạn không phải admin");
+        if (!user) {
+            throw new Error("User không tồn tại");
+        }
+
+        if (user.role !== "admin" && id !== loggedInUserId.toString()) {
+            throw new Error("Bạn không có quyền thực hiện hành động này");
+        }
+
+        if (id === loggedInUserId.toString()) {
+            // Xoá tài khoản user
+            await User.findByIdAndDelete(id);
+
+            return res.json({
+                message: "Xoá user thành công",
+                data: user
+            });
         }
 
         // Xoá user
