@@ -161,3 +161,16 @@ export const RemoveUser = async (req, res) => {
 };
 
 
+export const getAllUserByRole = async function (req, res) {
+    try {
+        const users = await User.find({ role: { $ne: 'admin' } });
+        if (users.length === 0) {
+            return res.status(400).json({ message: 'Không có người dùng' });
+        }
+        return res.status(200).json(users);
+    } catch (error) {
+        return res.json({
+            message: error.message,
+        });
+    }
+}
